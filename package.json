@@ -40,6 +40,7 @@
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.2.3",
     "eslint-plugin-react": "^5.1.1",
+    "fs": "^0.0.1-security",
     "mocha": "^2.2.5",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
@@ -74,5 +75,6 @@
     "es/",
     "lib/"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

@@ -1,15 +1,40 @@
 import * as Util from './util';
 import { Errors } from './const';
 
-const helpCommands = ['clear', 'ls', 'cat', 'mkdir', 'cd', 'pwd', 'echo', 'printenv', 'whoami', 'rm', 'view'];
+// don't think you can call servside on clientside stuff?
+// const testFolder = './src/';
+// const fs = require('fs');
+
+// fs.readdir(testFolder, (err, files) => {
+//     files.forEach((file) => {
+//         console.log(file);
+//     });
+// });
+
+const helpCommands = [
+    'clear',
+    'ls',
+    'cat',
+    'mkdir',
+    'cd',
+    'pwd',
+    'echo',
+    'printenv',
+    'whoami',
+    'rm',
+    'view',
+];
 
 export const help = {
     exec: (state) => {
         return Object.assign({}, state, {
             history: state.history.concat(
                 { value: 'React-bash:' },
-                { value: 'These shell commands are defined internally.  Type \'help\' to see this list.' },
-                ...helpCommands.map(value => ({ value }))
+                {
+                    value:
+                        "These shell commands are defined internally.  Type 'help' to see this list.",
+                },
+                ...helpCommands.map((value) => ({ value }))
             ),
         });
     },
@@ -32,13 +57,15 @@ export const ls = {
         } else {
             let content = Object.keys(dir);
             if (!flags.a) {
-                content = content.filter(name => name[0] !== '.');
+                content = content.filter((name) => name[0] !== '.');
             }
             if (flags.l) {
                 return Object.assign({}, state, {
-                    history: state.history.concat(content.map(value => {
-                        return { value };
-                    })),
+                    history: state.history.concat(
+                        content.map((value) => {
+                            return { value };
+                        })
+                    ),
                 });
             } else {
                 return Object.assign({}, state, {
@@ -64,7 +91,8 @@ export const cat = {
             return Util.appendError(state, Errors.IS_A_DIRECTORY, path);
         } else {
             const content = dir[fileName].content.replace(/\n$/, '');
-            const lines = content.split('\n').map(value => ({ value }));
+            const lines = content.split('\n').map((value) => ({ value }));
+            // console.log(lines);
             return Object.assign({}, state, {
                 history: state.history.concat(lines),
             });
@@ -121,7 +149,7 @@ export const echo = {
     exec: (state, { input }) => {
         const ECHO_LENGTH = 'echo '.length;
         const envVariables = Util.getEnvVariables(state);
-        const value = input.slice(ECHO_LENGTH).replace(/(\$\w+)/g, key => {
+        const value = input.slice(ECHO_LENGTH).replace(/(\$\w+)/g, (key) => {
             return envVariables[key.slice(1)] || '';
         });
         return Object.assign({}, state, {
@@ -133,7 +161,7 @@ export const echo = {
 export const printenv = {
     exec: (state) => {
         const envVariables = Util.getEnvVariables(state);
-        const values = Object.keys(envVariables).map(key => {
+        const values = Object.keys(envVariables).map((key) => {
             return { value: `${key}=${envVariables[key]}` };
         });
         return Object.assign({}, state, {
@@ -173,12 +201,38 @@ export const rm = {
     },
 };
 
+/*
+View is going to be a bit more complex since it takes in arguments - looking at cat for
+a good example to go off of
+*/
 export const view = {
-    exec: (state) => {
-        // const value = state.settings.user.username;
-        const value = "hello, world!"
-        return Object.assign({}, state, {
-            history: state.history.concat({ value }),
-        });
+    exec: (state, { args }) => {
+        const path = args[0];
+        const relativePath = path.split('/');
+        const fileName = relativePath.pop();
+        const fullPath = Util.extractPath(relativePath.join('/'), state.cwd);
+        const { err, dir } = Util.getDirectoryByPath(state.structure, fullPath);
+        if (err) {
+            return Util.appendError(state, err, path);
+        } else if (!dir[fileName]) {
+            return Util.appendError(state, Errors.NO_SUCH_FILE, path);
+        } else if (!dir[fileName].hasOwnProperty('callback')) {
+            return Util.appendError(state, Errors.NOT_A_SPECIAL_FILE, path);
+        } else if (!dir[fileName].hasOwnProperty('content') && !dir[fileName].hasOwnProperty('callback')) {
+            return Util.appendError(state, Errors.IS_A_DIRECTORY, path);
+        } else {
+            /* instead of doing a little bit of intermediate parsing like what
+            cat does, I want to display on the frontend some other react stuff,
+            perhaps in a file */
+
+            /* let's see if I can trigger the callback from here */
+            dir[fileName].callback();
+
+
+            // const content = dir[fileName].content.replace(/\n$/, '');
+            // const lines = content.split('\n').map((value) => ({ value }));
+            // console.log(lines);
+            return Object.assign({}, state);
+        }
     },
 };

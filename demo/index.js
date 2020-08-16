@@ -27,6 +27,11 @@ const structure = {
         '.secrets': { content: 'I\'m still afraid of the dark...' },
     },
     public: {
+        file0: {
+            callback: () => {
+                console.log('well hi!');
+            },
+        },
         file1: { content: 'The is the content for file1 in the <public> directory.' },
         file2: { content: 'The is the content for file2 in the <public> directory.' },
         file3: { content: 'The is the content for file3 in the <public> directory.' },
