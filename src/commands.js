@@ -32,9 +32,14 @@ export const help = {
                 { value: 'React-bash:' },
                 {
                     value:
-                        "These shell commands are defined internally.  Type 'help' to see this list.",
+                        "These shell commands are defined internally:",
                 },
-                ...helpCommands.map((value) => ({ value }))
+                ...helpCommands.map((value) => ({ value })),
+                
+                {
+                    value:
+                        "please use view [valid file] to learn more about me.",
+                },
             ),
         });
     },
@@ -227,12 +232,16 @@ export const view = {
 
             /* let's see if I can trigger the callback from here */
             dir[fileName].callback();
+            // openApp = true;
+            // viewFunction();
 
 
             // const content = dir[fileName].content.replace(/\n$/, '');
             // const lines = content.split('\n').map((value) => ({ value }));
             // console.log(lines);
-            return Object.assign({}, state);
+            return Object.assign({}, state, {
+                openApp: true,
+            });
         }
     },
 };

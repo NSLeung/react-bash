@@ -12,7 +12,6 @@ describe('bash commands', () => {
     });
 
     describe('help', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.help.exec);
         });
@@ -24,11 +23,9 @@ describe('bash commands', () => {
             const { history } = bash.commands.help.exec(state, {});
             chai.assert.strictEqual(history.length, expected);
         });
-
     });
 
     describe('clear', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.clear.exec);
         });
@@ -38,11 +35,9 @@ describe('bash commands', () => {
             const { history } = bash.commands.clear.exec(state, {});
             chai.assert.strictEqual(history.length, 0);
         });
-
     });
 
     describe('ls', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.ls.exec);
         });
@@ -100,11 +95,9 @@ describe('bash commands', () => {
             chai.assert.strictEqual(history.length, 1);
             chai.assert.strictEqual(history[0].value, expected);
         });
-
     });
 
     describe('cat', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.cat.exec);
         });
@@ -169,11 +162,9 @@ describe('bash commands', () => {
             chai.assert.strictEqual(history.length, 1);
             chai.assert.strictEqual(history[0].value, expected);
         });
-
     });
 
     describe('mkdir', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.mkdir.exec);
         });
@@ -209,11 +200,9 @@ describe('bash commands', () => {
             chai.assert.strictEqual(history.length, 1);
             chai.assert.strictEqual(history[0].value, expected);
         });
-
     });
 
     describe('cd', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.cd.exec);
         });
@@ -251,7 +240,6 @@ describe('bash commands', () => {
             const { cwd } = bash.commands.cd.exec(state, { args: { 0: '../childDir' } });
             chai.assert.strictEqual(cwd, 'dir1/childDir');
         });
-
     });
 
     describe('cd', () => {
@@ -306,7 +294,6 @@ describe('bash commands', () => {
             chai.assert.strictEqual(history.length, 1);
             chai.assert.strictEqual(history[0].value, `/${state.cwd}`);
         });
-
     });
 
     describe('printenv', () => {
@@ -320,7 +307,6 @@ describe('bash commands', () => {
             const { history } = bash.commands.printenv.exec(state, {});
             chai.assert.strictEqual(history.length, Object.keys(EnvVariables).length);
         });
-
     });
 
     describe('whoami', () => {
@@ -335,11 +321,9 @@ describe('bash commands', () => {
             chai.assert.strictEqual(history.length, 1);
             chai.assert.strictEqual(history[0].value, state.settings.user.username);
         });
-
     });
 
     describe('rm', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.commands.rm.exec);
         });
@@ -372,5 +356,4 @@ describe('bash commands', () => {
             chai.assert.isUndefined(structure.dir1);
         });
     });
-
 });

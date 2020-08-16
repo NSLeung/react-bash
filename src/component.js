@@ -14,7 +14,7 @@ const noop = () => {};
 
 export default class Terminal extends Component {
 
-    constructor({ history, structure, extensions, prefix }) {
+    constructor({ history, structure, extensions, prefix, openApp }) {
         super();
         this.Bash = new Bash(extensions);
         this.ctrlPressed = false;
@@ -23,6 +23,7 @@ export default class Terminal extends Component {
             history: history.slice(),
             structure: Object.assign({}, structure),
             cwd: '',
+            openApp,
         };
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -32,7 +33,7 @@ export default class Terminal extends Component {
         this.refs.input.focus();
     }
 
-    componentWillReceiveProps({ extensions, structure, history }) {
+    componentWillReceiveProps({ extensions, structure, history, openApp }) {
         const updatedState = {};
         if (structure) {
             updatedState.structure = Object.assign({}, structure);
@@ -42,6 +43,9 @@ export default class Terminal extends Component {
         }
         if (extensions) {
             this.Bash.commands = Object.assign({}, extensions, BaseCommands);
+        }
+        if (openApp) {
+            updatedState.view = Object.assign({}, openApp);
         }
         this.setState(updatedState);
     }
@@ -131,7 +135,12 @@ export default class Terminal extends Component {
         this.setState(newState);
         this.refs.input.value = '';
     }
-
+    updateOpenApp(evt) {
+        evt.preventDefault();
+        this.setState({
+            openApp: true,
+        });
+    }
     renderHistoryItem(style) {
         return (item, key) => {
             const prefix = item.hasOwnProperty('cwd') ? (
@@ -141,12 +150,15 @@ export default class Terminal extends Component {
         };
     }
 
+    
+
     render() {
         const { onClose, onExpand, onMinimize, prefix, styles, theme } = this.props;
-        const { history, cwd } = this.state;
+        const { history, cwd, openApp } = this.state;
         const style = Object.assign({}, Styles[theme] || Styles.light, styles);
-        return (
+        return (            
             <div className="ReactBash" style={style.ReactBash}>
+                {/* {openApp ? <p>Well Hi!</p> : null} */}
                 <div style={style.header}>
                     <span style={style.redCircle} onClick={onClose}></span>
                     <span style={style.yellowCircle} onClick={onMinimize}></span>

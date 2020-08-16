@@ -8,7 +8,6 @@ import Terminal from '../src/index';
 const baseEvent = { preventDefault: () => {} };
 
 describe('ReactBash component', () => {
-
     it('should render with only a structure', () => {
         const wrapper = shallow(<Terminal />);
         chai.assert.isDefined(wrapper);
@@ -68,7 +67,6 @@ describe('ReactBash component', () => {
     });
 
     describe('autocomplete', () => {
-
         it('should use Bash.autocomplete', () => {
             const wrapper = shallow(<Terminal />);
             const instance = wrapper.instance();
@@ -85,7 +83,6 @@ describe('ReactBash component', () => {
             instance.attemptAutocomplete();
             chai.assert.strictEqual(instance.refs.input.value, 'help');
         });
-
     });
 
     describe('keyboard shortcuts', () => {
@@ -156,7 +153,6 @@ describe('ReactBash component', () => {
             wrapper.find('input').simulate('keyup', keyEvent(40));
             chai.assert.strictEqual(instance.refs.input.value, 'Foo');
         });
-
     });
 
     describe('command submission', () => {
@@ -187,5 +183,4 @@ describe('ReactBash component', () => {
             chai.assert.strictEqual(instance.refs.input.value, '');
         });
     });
-
 });

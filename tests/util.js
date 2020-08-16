@@ -7,9 +7,7 @@ import PACKAGE from '../package.json';
 const state = stateFactory();
 
 describe('util method', () => {
-
     describe('appendError', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(Util.appendError);
         });
@@ -28,11 +26,9 @@ describe('util method', () => {
             const newState = Util.appendError(state, '-$1-', 'test');
             chai.assert.strictEqual(newState.history[0].value, '-test-');
         });
-
     });
 
     describe('extractPath', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(Util.extractPath);
         });
@@ -71,11 +67,9 @@ describe('util method', () => {
             const path = Util.extractPath('../../dir1', '.privateDir/childDir');
             chai.assert.strictEqual(path, 'dir1');
         });
-
     });
 
     describe('getDirectoryByPath', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(Util.getDirectoryByPath);
         });
@@ -101,11 +95,9 @@ describe('util method', () => {
             const { err } = Util.getDirectoryByPath(state.structure, path);
             chai.assert.strictEqual(err, Errors.NO_SUCH_FILE.replace('$1', path));
         });
-
     });
 
     describe('getEnvVariables', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(Util.getEnvVariables);
         });
@@ -125,11 +117,9 @@ describe('util method', () => {
             const envVariables = Util.getEnvVariables(state);
             chai.assert.strictEqual(envVariables.TERM_PROGRAM_VERSION, PACKAGE.version);
         });
-
     });
 
     describe('isFile', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(Util.isFile);
         });
@@ -141,7 +131,5 @@ describe('util method', () => {
         it('Should return false when given a folder', () => {
             chai.assert.isFalse(Util.isFile(state.structure.dir1));
         });
-
     });
-
 });

@@ -2,7 +2,6 @@ import chai from 'chai';
 import * as BashParser from '../src/parser';
 
 describe('BashParser', () => {
-
     describe('parseInput', () => {
         it('should exist', () => {
             chai.assert.isFunction(BashParser.parseInput);
@@ -44,11 +43,9 @@ describe('BashParser', () => {
             chai.assert.strictEqual(flags.l, true);
             chai.assert.strictEqual(flags.a, true);
         });
-
     });
 
     describe('parse', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(BashParser.parse);
         });

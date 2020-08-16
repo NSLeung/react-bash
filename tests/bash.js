@@ -5,9 +5,7 @@ import Bash from '../src/bash';
 import { Errors } from '../src/const';
 
 describe('bash class', () => {
-
     describe('with extensions', () => {
-
         it('should add extensions to commands', () => {
             const bash = new Bash();
             chai.assert.isDefined(bash.prevCommands);
@@ -22,9 +20,7 @@ describe('bash class', () => {
             chai.assert.isFunction(bash.commands.test);
             chai.assert.strictEqual(bash.commands.test, noop);
         });
-
     });
-
 });
 
 describe('bash class methods', () => {
@@ -36,7 +32,6 @@ describe('bash class methods', () => {
     });
 
     describe('execute', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.execute);
         });
@@ -117,11 +112,9 @@ describe('bash class methods', () => {
             chai.assert.strictEqual(history[0].value, input);
             chai.assert.strictEqual(history[1].value, expected1);
         });
-
     });
 
     describe('getPrevCommand', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.getPrevCommand);
         });
@@ -131,11 +124,9 @@ describe('bash class methods', () => {
             bash.prevCommands = [0, 1, 2];
             chai.assert.strictEqual(bash.getPrevCommand(), 1);
         });
-
     });
 
     describe('getNextCommand', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.getNextCommand);
         });
@@ -145,11 +136,9 @@ describe('bash class methods', () => {
             bash.prevCommands = [0, 1, 2];
             chai.assert.strictEqual(bash.getNextCommand(), 2);
         });
-
     });
 
     describe('hasPrevCommand', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.hasPrevCommand);
         });
@@ -163,11 +152,9 @@ describe('bash class methods', () => {
             bash.prevCommandsIndex = 1;
             chai.assert.strictEqual(bash.hasPrevCommand(), true);
         });
-
     });
 
     describe('hasNextCommand', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.hasNextCommand);
         });
@@ -183,11 +170,9 @@ describe('bash class methods', () => {
             bash.prevCommandsIndex = 0;
             chai.assert.strictEqual(bash.hasNextCommand(), true);
         });
-
     });
 
     describe('autocomplete', () => {
-
         it('should exist', () => {
             chai.assert.isFunction(bash.autocomplete);
         });
@@ -240,8 +225,6 @@ describe('bash class methods', () => {
             const actual = bash.autocomplete('ls ../../dir', state);
             chai.assert.strictEqual(expected, actual);
         });
-
     });
-
 });
 
