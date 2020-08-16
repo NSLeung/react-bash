@@ -1,7 +1,7 @@
 import * as Util from './util';
 import { Errors } from './const';
 
-const helpCommands = ['clear', 'ls', 'cat', 'mkdir', 'cd', 'pwd', 'echo', 'printenv', 'whoami', 'rm'];
+const helpCommands = ['clear', 'ls', 'cat', 'mkdir', 'cd', 'pwd', 'echo', 'printenv', 'whoami', 'rm', 'view'];
 
 export const help = {
     exec: (state) => {
@@ -170,5 +170,15 @@ export const rm = {
         } else {
             return Util.appendError(state, Errors.NO_SUCH_FILE, path);
         }
+    },
+};
+
+export const view = {
+    exec: (state) => {
+        // const value = state.settings.user.username;
+        const value = "hello, world!"
+        return Object.assign({}, state, {
+            history: state.history.concat({ value }),
+        });
     },
 };
