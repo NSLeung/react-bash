@@ -125,10 +125,11 @@ export default class Terminal extends Component {
 
     handleSubmit(evt) {
         evt.preventDefault();
-
+        console.log(this.state);
         // Execute command
         const input = evt.target[0].value;
         const newState = this.Bash.execute(input, this.state);
+        console.log(newState);
         this.setState(newState);
         this.refs.input.value = '';
     }
