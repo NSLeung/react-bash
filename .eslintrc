@@ -1,12 +1,12 @@
 {
     "extends": "airbnb",    
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module",
-        "ecmaFeatures": {
-          "jsx": true,
-        }
-    },
+    // "parserOptions": {
+    //     "ecmaVersion": 2018,
+    //     "sourceType": "module",
+    //     "ecmaFeatures": {
+    //       "jsx": true,
+    //     }
+    // },
     "rules": {
         "indent": ["error", 4],
         "react/jsx-indent": [2, 4],

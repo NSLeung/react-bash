@@ -32,14 +32,13 @@ export const help = {
                 { value: 'React-bash:' },
                 {
                     value:
-                        "These shell commands are defined internally:",
+                        'These shell commands are defined internally:',
                 },
                 ...helpCommands.map((value) => ({ value })),
-                
                 {
                     value:
-                        "please use view [valid file] to learn more about me.",
-                },
+                        'please use view [valid file] to learn more about me.',
+                }
             ),
         });
     },

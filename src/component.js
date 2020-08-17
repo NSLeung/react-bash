@@ -150,15 +150,12 @@ export default class Terminal extends Component {
         };
     }
 
-    
-
     render() {
         const { onClose, onExpand, onMinimize, prefix, styles, theme } = this.props;
-        const { history, cwd, openApp } = this.state;
+        const { history, cwd } = this.state;
         const style = Object.assign({}, Styles[theme] || Styles.light, styles);
-        return (            
+        return (
             <div className="ReactBash" style={style.ReactBash}>
-                {/* {openApp ? <p>Well Hi!</p> : null} */}
                 <div style={style.header}>
                     <span style={style.redCircle} onClick={onClose}></span>
                     <span style={style.yellowCircle} onClick={onMinimize}></span>
