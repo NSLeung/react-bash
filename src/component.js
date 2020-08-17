@@ -14,7 +14,7 @@ const noop = () => {};
 
 export default class Terminal extends Component {
 
-    constructor({ history, structure, extensions, prefix, openApp }) {
+    constructor({ history, structure, extensions, prefix, openAppHandler }) {
         super();
         this.Bash = new Bash(extensions);
         this.ctrlPressed = false;
@@ -23,7 +23,7 @@ export default class Terminal extends Component {
             history: history.slice(),
             structure: Object.assign({}, structure),
             cwd: '',
-            openApp,
+            openAppHandler,
         };
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -33,7 +33,7 @@ export default class Terminal extends Component {
         this.refs.input.focus();
     }
 
-    componentWillReceiveProps({ extensions, structure, history, openApp }) {
+    componentWillReceiveProps({ extensions, structure, history }) {
         const updatedState = {};
         if (structure) {
             updatedState.structure = Object.assign({}, structure);
@@ -43,9 +43,6 @@ export default class Terminal extends Component {
         }
         if (extensions) {
             this.Bash.commands = Object.assign({}, extensions, BaseCommands);
-        }
-        if (openApp) {
-            updatedState.view = Object.assign({}, openApp);
         }
         this.setState(updatedState);
     }
@@ -135,12 +132,12 @@ export default class Terminal extends Component {
         this.setState(newState);
         this.refs.input.value = '';
     }
-    updateOpenApp(evt) {
-        evt.preventDefault();
-        this.setState({
-            openApp: true,
-        });
-    }
+    // updateOpenApp(evt) {
+    //     evt.preventDefault();
+    //     this.setState({
+    //         openApp: true,
+    //     });
+    // }
     renderHistoryItem(style) {
         return (item, key) => {
             const prefix = item.hasOwnProperty('cwd') ? (

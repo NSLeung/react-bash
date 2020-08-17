@@ -210,7 +210,7 @@ View is going to be a bit more complex since it takes in arguments - looking at 
 a good example to go off of
 */
 export const view = {
-    exec: (state, { args }) => {
+    exec: (state, { args, openAppHandler }) => {
         const path = args[0];
         const relativePath = path.split('/');
         const fileName = relativePath.pop();
@@ -233,7 +233,8 @@ export const view = {
             dir[fileName].callback();
             // openApp = true;
             // viewFunction();
-
+            openAppHandler();
+            
 
             // const content = dir[fileName].content.replace(/\n$/, '');
             // const lines = content.split('\n').map((value) => ({ value }));
