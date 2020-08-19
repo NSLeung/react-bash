@@ -13,7 +13,6 @@ const TAB_CHAR_CODE = 9;
 const noop = () => {};
 
 export default class Terminal extends Component {
-
     constructor({ history, structure, extensions, prefix, openAppHandler }) {
         super();
         this.Bash = new Bash(extensions);
@@ -51,7 +50,7 @@ export default class Terminal extends Component {
      * Utilize immutability
      */
     shouldComponentUpdate(nextProps, nextState) {
-        return (this.state !== nextState) || (this.props !== nextProps);
+        return this.state !== nextState || this.props !== nextProps;
     }
 
     /*
@@ -125,44 +124,59 @@ export default class Terminal extends Component {
 
     handleSubmit(evt) {
         evt.preventDefault();
-        console.log(this.state);
         // Execute command
         const input = evt.target[0].value;
         const newState = this.Bash.execute(input, this.state);
-        console.log(newState);
         this.setState(newState);
         this.refs.input.value = '';
     }
-    // updateOpenApp(evt) {
-    //     evt.preventDefault();
-    //     this.setState({
-    //         openApp: true,
-    //     });
-    // }
+
     renderHistoryItem(style) {
         return (item, key) => {
             const prefix = item.hasOwnProperty('cwd') ? (
-                <span style={style.prefix}>{`${this.props.prefix} ~${item.cwd} $`}</span>
+                <span
+                  style={style.prefix}
+                >{`${this.props.prefix} ~${item.cwd} $`}</span>
             ) : undefined;
-            return <div data-test-id={`history-${key}`} key={key} >{prefix}{item.value}</div>;
+            return (
+                <div data-test-id={`history-${key}`} key={key}>
+                    {prefix}
+                    {item.value}
+                </div>
+            );
         };
     }
 
     render() {
-        const { onClose, onExpand, onMinimize, prefix, styles, theme } = this.props;
+        const {
+            onClose,
+            onExpand,
+            onMinimize,
+            prefix,
+            styles,
+            theme,
+        } = this.props;
         const { history, cwd } = this.state;
         const style = Object.assign({}, Styles[theme] || Styles.light, styles);
         return (
             <div className="ReactBash" style={style.ReactBash}>
                 <div style={style.header}>
                     <span style={style.redCircle} onClick={onClose}></span>
-                    <span style={style.yellowCircle} onClick={onMinimize}></span>
+                    <span
+                      style={style.yellowCircle}
+                      onClick={onMinimize}
+                    ></span>
                     <span style={style.greenCircle} onClick={onExpand}></span>
                 </div>
                 <div style={style.body} onClick={() => this.refs.input.focus()}>
                     {history.map(this.renderHistoryItem(style))}
-                    <form onSubmit={evt => this.handleSubmit(evt)} style={style.form}>
-                        <span style={style.prefix}>{`${prefix} ~${cwd} $`}</span>
+                    <form
+                      onSubmit={(evt) => this.handleSubmit(evt)}
+                      style={style.form}
+                    >
+                        <span
+                          style={style.prefix}
+                        >{`${prefix} ~${cwd} $`}</span>
                         <input
                           autoComplete="off"
                           onKeyDown={this.handleKeyDown}

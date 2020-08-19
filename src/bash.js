@@ -4,7 +4,6 @@ import * as BaseCommands from './commands';
 import * as BashParser from './parser';
 
 export default class Bash {
-
     constructor(extensions = {}) {
         this.commands = Object.assign(extensions, BaseCommands);
         this.prevCommands = [];
@@ -22,7 +21,6 @@ export default class Bash {
     execute(input, currentState) {
         this.prevCommands.push(input);
         this.prevCommandsIndex = this.prevCommands.length;
-
         // Append input to history
         const newState = Object.assign({}, currentState, {
             history: currentState.history.concat({
@@ -30,7 +28,6 @@ export default class Bash {
                 value: input,
             }),
         });
-
         const commandList = BashParser.parse(input);
         return this.runCommands(commandList, newState);
     }
@@ -57,12 +54,19 @@ export default class Bash {
             if (command.name === '') {
                 return newState;
             } else if (this.commands[command.name]) {
-                const nextState = this.commands[command.name].exec(newState, command);
+                const nextState = this.commands[command.name].exec(
+                    newState,
+                    command
+                );
                 errorOccurred = errorOccurred || (nextState && nextState.error);
                 return nextState;
             } else {
                 errorOccurred = true;
-                return Util.appendError(newState, Errors.COMMAND_NOT_FOUND, command.name);
+                return Util.appendError(
+                    newState,
+                    Errors.COMMAND_NOT_FOUND,
+                    command.name
+                );
             }
         };
 
@@ -87,8 +91,8 @@ export default class Bash {
     autocomplete(input, { structure, cwd }) {
         const tokens = input.split(/ +/);
         let token = tokens.pop();
-        const filter = item => item.indexOf(token) === 0;
-        const result = str => tokens.concat(str).join(' ');
+        const filter = (item) => item.indexOf(token) === 0;
+        const result = (str) => tokens.concat(str).join(' ');
 
         if (tokens.length === 0) {
             const suggestions = Object.keys(this.commands).filter(filter);
@@ -102,7 +106,9 @@ export default class Bash {
             if (err) return null;
             const suggestions = Object.keys(dir).filter(filter);
             const prefix = partialPath ? `${partialPath}/` : '';
-            return suggestions.length === 1 ? result(`${prefix}${suggestions[0]}`) : null;
+            return suggestions.length === 1
+                ? result(`${prefix}${suggestions[0]}`)
+                : null;
         }
     }
 
@@ -121,5 +127,4 @@ export default class Bash {
     hasNextCommand() {
         return this.prevCommandsIndex !== this.prevCommands.length - 1;
     }
-
 }

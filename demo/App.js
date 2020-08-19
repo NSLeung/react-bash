@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { Component } from 'react';
 import Terminal from '../src/index';
 
 const extensions = {
     sudo: {
         exec: ({ structure, history, cwd }) => {
-            return { structure, cwd,
+            return {
+                structure,
+                cwd,
                 history: history.concat({ value: 'Nice try... (ಠ(ಠ(ಠ_ಠ)ಠ)ಠ)' }),
             };
         },
@@ -27,10 +29,11 @@ const structure = {
     },
     public: {
         file0: {
-            callback: () => {
-                console.log('well hi!');
-                // App().trigger();
-            },
+            // callback: () => {
+            //     console.log('well hi!');
+            //     // App().trigger();
+            // },
+            type: 'sdfsdf',
         },
         file1: { content: 'The is the content for file1 in the <public> directory.' },
         file2: { content: 'The is the content for file2 in the <public> directory.' },
@@ -39,15 +42,22 @@ const structure = {
     'README.md': { content: '✌⊂(✰‿✰)つ✌ Thanks for checking out the tool! There is a lot that you can do with react-bash and I\'m excited to see all of the fun commands and projects build on top of it!' },
 };
 
-function App() {
-    // const trigger = useRef(null);
-    const openApp = false;
-    function handleTrigger() {
-        // trigger();
-        console.log('well bye!');
+class App extends Component {
+    constructor() {
+        super();
+        this.state = { val: false };
+        this.onUpdate.bind(this);
     }
-    return (
-        <Terminal history={history} structure={structure} extensions={extensions} onClose={() => {console.log('fake close'); }} viewFunction={handleTrigger} openApp={openApp} />
-    );
+
+    onUpdate() {
+        console.log('triggered!');
+        if (this.ref) this.setState({ val: true });
+    }
+
+    render() {
+        return (
+            <Terminal history={history} structure={structure} extensions={extensions} onClose={() => { console.log('fake close'); }} openAppHandler={this.onUpdate} ref="myref" />
+        );
+    }
 }
 export default App;

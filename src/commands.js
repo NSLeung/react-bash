@@ -1,16 +1,6 @@
 import * as Util from './util';
 import { Errors } from './const';
 
-// don't think you can call servside on clientside stuff?
-// const testFolder = './src/';
-// const fs = require('fs');
-
-// fs.readdir(testFolder, (err, files) => {
-//     files.forEach((file) => {
-//         console.log(file);
-//     });
-// });
-
 const helpCommands = [
     'clear',
     'ls',
@@ -31,8 +21,7 @@ export const help = {
             history: state.history.concat(
                 { value: 'React-bash:' },
                 {
-                    value:
-                        'These shell commands are defined internally:',
+                    value: 'These shell commands are defined internally:',
                 },
                 ...helpCommands.map((value) => ({ value })),
                 {
@@ -210,7 +199,7 @@ View is going to be a bit more complex since it takes in arguments - looking at 
 a good example to go off of
 */
 export const view = {
-    exec: (state, { args, openAppHandler }) => {
+    exec: (state, { args }) => {
         const path = args[0];
         const relativePath = path.split('/');
         const fileName = relativePath.pop();
@@ -220,27 +209,20 @@ export const view = {
             return Util.appendError(state, err, path);
         } else if (!dir[fileName]) {
             return Util.appendError(state, Errors.NO_SUCH_FILE, path);
-        } else if (!dir[fileName].hasOwnProperty('callback')) {
+        } else if (!dir[fileName].hasOwnProperty('type')) {
             return Util.appendError(state, Errors.NOT_A_SPECIAL_FILE, path);
-        } else if (!dir[fileName].hasOwnProperty('content') && !dir[fileName].hasOwnProperty('callback')) {
+        } else if (
+            !dir[fileName].hasOwnProperty('content') &&
+            !dir[fileName].hasOwnProperty('type')
+        ) {
             return Util.appendError(state, Errors.IS_A_DIRECTORY, path);
         } else {
             /* instead of doing a little bit of intermediate parsing like what
             cat does, I want to display on the frontend some other react stuff,
             perhaps in a file */
-
-            /* let's see if I can trigger the callback from here */
-            dir[fileName].callback();
-            // openApp = true;
-            // viewFunction();
-            openAppHandler();
-            
-
-            // const content = dir[fileName].content.replace(/\n$/, '');
-            // const lines = content.split('\n').map((value) => ({ value }));
-            // console.log(lines);
+            state.openAppHandler(fileName);
             return Object.assign({}, state, {
-                openApp: true,
+                history: state.history.concat({ value: '' }),
             });
         }
     },
