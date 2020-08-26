@@ -27,7 +27,11 @@ export const help = {
                 {
                     value:
                         'please use view [valid file] to learn more about me.',
-                }
+                },
+                {
+                    value:
+                        '`ls` shows the content of the current directory. That should help you get started.',
+                },
             ),
         });
     },

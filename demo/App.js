@@ -34,6 +34,7 @@ const structure = {
             //     // App().trigger();
             // },
             type: 'sdfsdf',
+            content: 'Use the view [filename] command to look at this special file.',
         },
         file1: { content: 'The is the content for file1 in the <public> directory.' },
         file2: { content: 'The is the content for file2 in the <public> directory.' },

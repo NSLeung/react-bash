@@ -83,7 +83,7 @@ export default {
             backgroundColor: '#dcdbdb',
         }),
         prefix: Object.assign({}, BaseStyles.prefix, {
-            color: '#5b65fb',
+            color: '#33FF33',
         }),
     }),
 };
